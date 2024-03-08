@@ -32,8 +32,7 @@ public:
 	virtual void Get_Quantity_Harvest() = 0;//возможное кол-во плодов
 	virtual void Get_size_plant() = 0; //размер растения
 	virtual void Info()const = 0;
-	//virtual void Get_Harvest(int num, Plants* plants) = 0;
-
+	virtual void Get_Harvest(int num) = 0;
 };
 
 class Apple_tree:public Plants
@@ -45,19 +44,18 @@ private:
 	std::string Name_Fruit_ = "Apple";
 	std::vector<Harvest>::iterator p = harvest_.begin();
 	Harvest* New_Harvest() {
-		int Rand_Weight = 0;
-		                                                                     //srand(time(NULL));
+		int Rand_Weight = 0;                                                                     
 		auto f= [&Rand_Weight]() {Rand_Weight = rand() % 30 + 150; };
 		f();
 		Harvest* tmp = new Harvest(Name_Fruit_, "green", Rand_Weight);
 		return tmp;
 	}
-
 public:
-	Apple_tree(int num) { //конструктор
-		                                                                       //num = (rand() % 40);
-		Quantity_Harvest_ = (rand() % 30);
-		                                                                      /*harvest_.size()= Quantity_Harvest*/
+	//конструктор
+	Apple_tree(int num) {              
+		auto num2 = (rand() % 40);
+		Quantity_Harvest_ =  num2+num;
+		harvest_.reserve(Quantity_Harvest_);
 		if (num <= Quantity_Harvest_) 
 			for (int i = 1; i <= num; i++) 
 				harvest_.push_back(*New_Harvest());
@@ -66,6 +64,12 @@ public:
 			return;
 		}
 	}
+
+	void Get_Harvest(int num) override {
+		if (num > harvest_.size())
+			num = harvest_.size();
+		harvest_.erase(harvest_.end() - num, harvest_.end());
+	}
 	void Get_size_plant()override {
 		std::cout << "Apple_tree: " << size_ << std::endl;
 	}
@@ -73,17 +77,17 @@ public:
 		std::cout << "This Apple_tree:\n"
 			<< "   Size tree - " << size_ << "\n"
 			<< "Fruit: " << "\n";
-		for (auto p : harvest_) {
-			std::cout << "   Name: " << p.Get_Name() << "  Color: " << p.Get_Color() << "  Weight: " << p.Get_Weight() << ".gramm" << std::endl;
+		if (harvest_.empty())
+			std::cout << " No Fruit  \n";
+		else {
+			for (auto p : harvest_) {
+				std::cout << "   Name: " << p.Get_Name() << "  Color: " << p.Get_Color() << "  Weight: " << p.Get_Weight() << ".gramm" << std::endl;
+			}
 		}
-		
 	}
 	void Get_Quantity_Harvest() override { //возможное кол-во плодов
 		std::cout << "Quantity_Harvest: " << Quantity_Harvest_ << std::endl;
 	}   
-	
-
-
 };
 
 class Pear_tree :public Plants
@@ -96,7 +100,6 @@ private:
 	std::vector<Harvest>::iterator p = harvest_.begin();
 	Harvest* New_Harvest() {
 		int Rand_Weight = 0;
-		//srand(time(NULL));
 		auto f = [&Rand_Weight]() {Rand_Weight = rand() % 30 + 100; };
 		f();
 		Harvest* tmp = new Harvest(Name_Fruit_, "yellow", Rand_Weight);
@@ -105,9 +108,9 @@ private:
 
 public:
 	Pear_tree(int num) { //конструктор
-		//num = (rand() % 40);
-		Quantity_Harvest_ = (rand() % 30);
-		/*harvest_.size()= Quantity_Harvest*/
+		auto num2 = (rand() % 30);
+		Quantity_Harvest_ = num2 + num;
+		harvest_.reserve(Quantity_Harvest_);
 		if (num <= Quantity_Harvest_)
 			for (int i = 1; i <= num; i++)
 				harvest_.push_back(*New_Harvest());
@@ -116,6 +119,11 @@ public:
 			return;
 		}
 	}
+	void Get_Harvest(int num) override {
+		if (num > harvest_.size())
+			num = harvest_.size();
+		harvest_.erase(harvest_.end() - num, harvest_.end());
+	}
 	void Get_size_plant()override {
 		std::cout << "Pear_tree: " << size_ << std::endl;
 	}
@@ -123,8 +131,12 @@ public:
 		std::cout << "This Pear_tree:\n"
 			<< "   Size tree - " << size_ << "\n"
 			<< "Fruit: " << "\n";
-		for (auto p : harvest_) {
-			std::cout << "   Name: " << p.Get_Name() << "  Color: " << p.Get_Color() << "  Weight: " << p.Get_Weight() << ".gramm" << std::endl;
+		if (harvest_.empty())
+			std::cout << " No Fruit  \n";
+		else {
+			for (auto p : harvest_) {
+				std::cout << "   Name: " << p.Get_Name() << "  Color: " << p.Get_Color() << "  Weight: " << p.Get_Weight() << ".gramm" << std::endl;
+			}
 		}
 
 	}
@@ -146,7 +158,6 @@ private:
 	std::vector<Harvest>::iterator p = harvest_.begin();
 	Harvest* New_Harvest() {
 		int Rand_Weight = 0;
-		//srand(time(NULL));
 		auto f = [&Rand_Weight]() {Rand_Weight = rand() % 3+ 20; };
 		f();
 		Harvest* tmp = new Harvest(Name_Fruit_, "Red", Rand_Weight);
@@ -155,9 +166,9 @@ private:
 
 public:
 	Raspberries(int num) { //конструктор
-		//num = (rand() % 40);
-		Quantity_Harvest_ = (rand() % 80);
-		/*harvest_.size()= Quantity_Harvest*/
+		auto num2 = (rand() % 200);
+		Quantity_Harvest_ = num2 + num;
+		harvest_.reserve(Quantity_Harvest_);
 		if (num <= Quantity_Harvest_)
 			for (int i = 1; i <= num; i++)
 				harvest_.push_back(*New_Harvest());
@@ -166,6 +177,11 @@ public:
 			return;
 		}
 	}
+	void Get_Harvest(int num) override {                 
+		if (num > harvest_.size())
+			num = harvest_.size();
+		harvest_.erase(harvest_.end() - num, harvest_.end());
+	}
 	void Get_size_plant()override {
 		std::cout << "Raspberries: " << size_ << std::endl;
 	}
@@ -173,10 +189,13 @@ public:
 		std::cout << "This Raspberries:\n"
 			<< "   Size tree - " << size_ << "\n"
 			<< "Fruit: " << "\n";
-		for (auto p : harvest_) {
-			std::cout << "   Name: " << p.Get_Name() << "  Color: " << p.Get_Color() << "  Weight: " << p.Get_Weight() << ".gramm" << std::endl;
+		if (harvest_.empty())
+			std::cout << " No Fruit  \n";
+		else {
+			for (auto p : harvest_) {
+				std::cout << "   Name: " << p.Get_Name() << "  Color: " << p.Get_Color() << "  Weight: " << p.Get_Weight() << ".gramm" << std::endl;
+			}
 		}
-
 	}
 	void Get_Quantity_Harvest() override { //возможное кол-во плодов
 		std::cout << "Quantity_Harvest: " << Quantity_Harvest_ << std::endl;
@@ -185,19 +204,19 @@ public:
 
 };
 
-void Get_Harvest(int num, Plants* plants) {
-	plants->Info();
 
-}
+//int Summ(int a, int b) { return a + b; }
+
 
 int main() {
-	Raspberries ps(16);
+	srand(time(NULL));
+
+	Raspberries ps(10);
 	Apple_tree ap(7);
 	Pear_tree pt(8);
 	Plants* Plants_point;
 	Plants_point = &ap;
 	Plants_point->Info();
-	Plants_point->Get_size_plant();
 	Plants_point->Get_Quantity_Harvest();
 	std::cout << "\n\n";
 	Plants_point = &pt;
@@ -209,10 +228,16 @@ int main() {
 	Plants_point->Info();
 	Plants_point->Get_size_plant();
 	Plants_point->Get_Quantity_Harvest();
+	std::cout << "===========================================\n\n";
+	Plants_point->Get_Harvest(5);
 	std::cout << "\n\n";
-	Plants_point = &ap;
-	Get_Harvest(3, Plants_point);         //  ??????????
-
+	Plants_point->Info();
+	Plants_point->Get_Harvest(3);
+	std::cout << "\n\n";
+	Plants_point->Info();
+	Plants_point->Get_Harvest(5);
+	std::cout << "\n\n";
+	Plants_point->Info();
 
 	//ap.Info();
 	//std::sort(harvest_.begin(), harvest_.end(),
