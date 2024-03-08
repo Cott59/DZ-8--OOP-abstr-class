@@ -35,7 +35,38 @@ public:
 	virtual void Get_Harvest(int num) = 0;
 };
 
-class Apple_tree:public Plants
+class Plant :public Plants
+{
+public:
+	void Get_Harvest(int num) override {
+		if (num > harvest_.size())
+			num = harvest_.size();
+		harvest_.erase(harvest_.end() - num, harvest_.end());
+	}
+	void Get_size_plant()override {
+		std::cout << "Apple_tree: " << size_ << std::endl;
+	}
+	void Info()const override {
+		std::cout << "This Apple_tree:\n"
+			<< "   Size tree - " << size_ << "\n"
+			<< "Fruit: " << "\n";
+		if (harvest_.empty())
+			std::cout << " No Fruit  \n";
+		else {
+			for (auto p : harvest_) {
+				std::cout << "   Name: " << p.Get_Name() << "  Color: " << p.Get_Color() << "  Weight: " << p.Get_Weight() << ".gramm" << std::endl;
+			}
+		}
+	}
+	virtual void Get_Quantity_Harvest() override { //возможное кол-во плодов
+		std::cout << "Quantity_Harvest: " << Quantity_Harvest_ << std::endl;
+	}
+
+
+
+};
+
+class Apple_tree:public Plant
 {
 private:
 	std::vector<Harvest>harvest_;
@@ -64,30 +95,9 @@ public:
 			return;
 		}
 	}
+	void Get_Quantity_Harvest();
 
-	void Get_Harvest(int num) override {
-		if (num > harvest_.size())
-			num = harvest_.size();
-		harvest_.erase(harvest_.end() - num, harvest_.end());
-	}
-	void Get_size_plant()override {
-		std::cout << "Apple_tree: " << size_ << std::endl;
-	}
-	void Info()const override {
-		std::cout << "This Apple_tree:\n"
-			<< "   Size tree - " << size_ << "\n"
-			<< "Fruit: " << "\n";
-		if (harvest_.empty())
-			std::cout << " No Fruit  \n";
-		else {
-			for (auto p : harvest_) {
-				std::cout << "   Name: " << p.Get_Name() << "  Color: " << p.Get_Color() << "  Weight: " << p.Get_Weight() << ".gramm" << std::endl;
-			}
-		}
-	}
-	void Get_Quantity_Harvest() override { //возможное кол-во плодов
-		std::cout << "Quantity_Harvest: " << Quantity_Harvest_ << std::endl;
-	}   
+ 
 };
 
 class Pear_tree :public Plants
@@ -219,32 +229,27 @@ int main() {
 	Plants_point->Info();
 	Plants_point->Get_Quantity_Harvest();
 	std::cout << "\n\n";
-	Plants_point = &pt;
-	Plants_point->Info();
-	Plants_point->Get_size_plant();
-	Plants_point->Get_Quantity_Harvest();
-	std::cout << "\n\n";
-	Plants_point = &ps;
-	Plants_point->Info();
-	Plants_point->Get_size_plant();
-	Plants_point->Get_Quantity_Harvest();
-	std::cout << "===========================================\n\n";
-	Plants_point->Get_Harvest(5);
-	std::cout << "\n\n";
-	Plants_point->Info();
-	Plants_point->Get_Harvest(3);
-	std::cout << "\n\n";
-	Plants_point->Info();
-	Plants_point->Get_Harvest(5);
-	std::cout << "\n\n";
-	Plants_point->Info();
+	//Plants_point = &pt;
+	//Plants_point->Info();
+	//Plants_point->Get_size_plant();
+	//Plants_point->Get_Quantity_Harvest();
+	//std::cout << "\n\n";
+	//Plants_point = &ps;
+	//Plants_point->Info();
+	//Plants_point->Get_size_plant();
+	//Plants_point->Get_Quantity_Harvest();
+	//std::cout << "===========================================\n\n";
+	//Plants_point->Get_Harvest(5);
+	//std::cout << "\n\n";
+	//Plants_point->Info();
+	//Plants_point->Get_Harvest(3);
+	//std::cout << "\n\n";
+	//Plants_point->Info();
+	//Plants_point->Get_Harvest(5);
+	//std::cout << "\n\n";
+	//Plants_point->Info();
 
-	//ap.Info();
-	//std::sort(harvest_.begin(), harvest_.end(),
-	//	[](const Runner& a, const Runner& b)->bool {
-	//		return a.Name < b.Name;
-	//	}
-	//);
+	
 
 
 	_getch();
