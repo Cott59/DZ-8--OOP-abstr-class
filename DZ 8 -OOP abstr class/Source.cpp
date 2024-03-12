@@ -33,7 +33,7 @@ public:
 	virtual void Get_size_plant() = 0; //размер растения
 	virtual void Info()const = 0;
 	virtual void Get_Harvest(unsigned long int num) = 0;
-	virtual void ALLWeight() = 0;
+	virtual void AllWeight() = 0;
 };
 
 class Apple_tree:public Plants
@@ -89,19 +89,15 @@ public:
 	void Get_Quantity_Harvest() override { //возможное кол-во плодов
 		std::cout << "Quantity_Harvest: " << Quantity_Harvest_ << std::endl;
 	}   
-	/*void ALLWeight(std::function<int(int)> alg) {
-		for (auto p: harvest_) {
-			alg(p.Get_Weight());
-		}
-	}*/
-	void ALLWeight()override {
+	
+	void AllWeight()override {
 		int Sum = 0;
 		std::for_each(harvest_.begin(), harvest_.end(), [&Sum](Harvest & hr)->int {
 			auto a = hr.Get_Weight();
 			Sum += a;
 			return Sum; 
 			});
-		std::cout<<"\n   ALL Weight Harvest = " << Sum << " g.\n\n";
+		std::cout<<"\n   All Weight Harvest = " << Sum << " g.\n\n";
 	}
 };
 
@@ -158,14 +154,14 @@ public:
 	void Get_Quantity_Harvest() override { //возможное кол-во плодов
 		std::cout << "Quantity_Harvest: " << Quantity_Harvest_ << std::endl;
 	}
-	void ALLWeight()override {
+	void AllWeight()override {
 		int Sum = 0;
 		std::for_each(harvest_.begin(), harvest_.end(), [&Sum](Harvest& hr)->int {
 			auto a = hr.Get_Weight();
 			Sum += a;
 			return Sum;
 			});
-		std::cout << "\n   ALL Weight Harvest = " << Sum << " g.\n\n";
+		std::cout << "\n   All Weight Harvest = " << Sum << " g.\n\n";
 	}
 
 
@@ -223,20 +219,25 @@ public:
 	void Get_Quantity_Harvest() override { //возможное кол-во плодов
 		std::cout << "Quantity_Harvest: " << Quantity_Harvest_ << std::endl;
 	}
-	void ALLWeight()override {
+	void AllWeight()override {
 		int Sum = 0;
 		std::for_each(harvest_.begin(), harvest_.end(), [&Sum](Harvest& hr)->int {
 			auto a = hr.Get_Weight();
 			Sum += a;
 			return Sum;
 			});
-		std::cout << "\n   ALL Weight Harvest = " << Sum << " g.\n\n";
+		std::cout << "\n   All Weight Harvest = " << Sum << " g.\n\n";
 	}
 
 };
 
 
-
+void Data_Plants(Plants* Pl) {
+	Pl->Info();
+	Pl->AllWeight();
+	Pl->Get_Quantity_Harvest();
+	std::cout << "\n\n";
+}
 
 
 int main() {
@@ -248,22 +249,25 @@ int main() {
 	Plants* Plants_point;
 	Plants_point = &ap;
 	Plants_point->Info();
-	Plants_point->ALLWeight();
+	Plants_point->AllWeight();
 	Plants_point->Get_Quantity_Harvest();
 	std::cout << "\n\n";
 	Plants_point = &pt;
 	Plants_point->Info();
-	Plants_point->ALLWeight();
+	Plants_point->AllWeight();
 	Plants_point->Get_size_plant();
 	Plants_point->Get_Quantity_Harvest();
 	std::cout << "\n\n";
 	Plants_point = &ps;
 	Plants_point->Info();
-	Plants_point->ALLWeight();
+	Plants_point->AllWeight();
 	Plants_point->Get_size_plant();
 	Plants_point->Get_Quantity_Harvest();
 	std::cout << "===========================================\n\n";
-	
+	Plants_point = &ap;
+	Plants_point->Get_Harvest(5);
+	std::cout << "\n\n";
+	Data_Plants(Plants_point);
 
 	/*Plants_point->Get_Harvest(5);
 	std::cout << "\n\n";
